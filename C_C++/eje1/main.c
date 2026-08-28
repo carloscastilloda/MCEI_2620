@@ -10,10 +10,10 @@ int main(){
   
   d = 3.*6.+5.;
   printf("El resultado es: %f\n\r", d);
-  printf("Y su tamaño es: %ld\n\r", sizeof(a));
-  printf("Y su tamaño es: %ld\n\r", sizeof(b));
-  printf("Y su tamaño es: %ld\n\r", sizeof(c));
-  printf("Y su tamaño es: %ld\n\r", sizeof(d));
+  printf("El tamaño de int es: %ld\n\r", sizeof(a));
+  printf("El tamaño de long es: %ld\n\r", sizeof(b));
+  printf("El tamaño de float es: %ld\n\r", sizeof(c));
+  printf("El tamaño de double es: %ld\n\r", sizeof(d));
 
   return 0;
 }
