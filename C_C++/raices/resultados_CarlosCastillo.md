@@ -1,5 +1,6 @@
 # *Resultados* 
 ---
+
 ## **Preguntas de Exploración:**
 **1. ¿Cómo identificar visualmente la existencia de una raíz?** 
 
@@ -11,7 +12,7 @@ R/: Significa que podemos establecer un intervalo $[a, b]$ dentro del cual se en
 
 **3. ¿Por qué algunos métodos requieren derivadas?**
 
-R/: Algunos métodos utilizan la pendiente de la función para determinar la dirección y magnitud del siguiente desplazamiento hacia la raíz. Por ejemplo en el método de Newton-Raphson se utiliza la derivada $f^' (x)$ para conocer la pendiente de la función en el punto actual y aproximar la recta tangente donde se intersectará el eje x.
+R/: Algunos métodos utilizan la pendiente de la función para determinar la dirección y magnitud del siguiente desplazamiento hacia la raíz. Por ejemplo en el método de Newton-Raphson se utiliza la derivada $f'(x)$ para conocer la pendiente de la función en el punto actual y aproximar la recta tangente donde se intersectará el eje x.
 La ventaja es que puede producir una convergencia muy rápida cerca de la raíz. Sin embargo, requiere calcular la derivada y puede presentar problemas cuando esta es cero o cercana a cero.
 
 **4. ¿Qué ventajas tiene un método abierto frente a uno cerrado?**
@@ -22,13 +23,15 @@ R/: Los métodos abiertos, como Newton-Raphson y el método de la secante, no ne
 
 R/: No. Por ejemplo:
 - Bisección: tiene una garantía de convergencia si la función es continua y existe un cambio de signo en el intervalo. 
-- Newton-Raphson: puede no converger si la aproximación inicial es inadecuada, si $f^' (x)$ es cero o si la función presenta determinadas características. 
+- Newton-Raphson: puede no converger si la aproximación inicial es inadecuada, si $f'(x)$ es cero o si la función presenta determinadas características. 
 - Secante: tampoco garantiza convergencia y puede divergir dependiendo de los valores iniciales. 
 - Regula Falsi: generalmente es robusto porque conserva el intervalo acotado, aunque puede presentar convergencia lenta en algunos casos. 
 
 Por esta razón, la elección del método depende de las características de la función y del problema.
+
 ---
-## **Resultados Ejercicio función f(x) = x^3 - 5x + 1**
+
+## **Resultados Ejercicio función $f(x) = x^3 - 5x + 1$**
 
 Se evaluó la funcion en los intervalos $[-3,3]$, encontrando 3 raices:
 
@@ -66,6 +69,7 @@ Se evaluó la funcion en los intervalos $[-3,3]$, encontrando 3 raices:
 | Steffenson | 2.1284190638 | 6 | converge |
 
 ---
+
 ## Preguntas de Discusión
 
 **1. ¿Qué método converge en menos iteraciones?**
@@ -94,15 +98,18 @@ R/: Para problemas de ingeniería recomendaría Brent cuando se disponga de un i
 
 **5. ¿Existe una relación entre costo computacional y velocidad de convergencia?**
 
-R/: Sí. Existe un compromiso entre costo computacional por iteración y cantidad de iteraciones. Por ejemplo, Newton converge rápidamente, pero en cada iteración requiere evaluar tanto la función como su derivada, en este caso necesitó solamente 4–5 iteraciones. Por otro lado, La bisección, tiene operaciones sencillas y bajo costo por iteración, pero requiere muchas más iteraciones: hasta 29 en los experimentos realizados.
-Por ello, el método con menos iteraciones no necesariamente tiene siempre el menor costo total. Para seleccionar un método de ingeniería se debe considerar no solo el número de iteraciones, sino también el costo de evaluar la función, calcular derivadas, memoria, estabilidad y garantía de convergencia.
+R/: Sí. Existe un compromiso entre costo computacional por iteración y cantidad de iteraciones. Por ejemplo, Newton converge rápidamente, pero en cada iteración requiere evaluar tanto la función como su derivada, en este caso necesitó solamente 4–5 iteraciones. Por otro lado, La bisección, tiene operaciones sencillas y bajo costo por iteración, pero requiere muchas más iteraciones: hasta 29 en los experimentos realizados. Por ello, el método con menos iteraciones no necesariamente tiene siempre el menor costo total. Para seleccionar un método de ingeniería se debe considerar no solo el número de iteraciones, sino también el costo de evaluar la función, calcular derivadas, memoria, estabilidad y garantía de convergencia.
+
 ---
+
 ## Ejercicio con la funcion f(x) = e^x - x
-FUNCION:  f(x) = e^x - x
-DERIVADA: f'(x) = e^x - 1
+
+FUNCION:  $f(x) = e^x - x$
+
+DERIVADA: $f'(x) = e^x - 1$
  
 Esta funcion NO tiene raices reales. 
-Su minimo global esta en $x = 0$ (donde $f'(x) = e^x - 1 = 0$) y vale $f(0) = 1 > 0$, es decir $e^x > x$  para todo x real. Cuando NO se cumple la hipotesis de Bolzano: los metodos cerrados rechazan el intervalo y los abiertos no convergen.
+Su minimo global esta en $x = 0$ , donde $f'(x) = e^x - 1 = 0$ y vale $f(0) = 1 > 0$, es decir $e^x > x$  para todo x real. Cuando NO se cumple la hipotesis de Bolzano: los metodos cerrados rechazan el intervalo y los abiertos no convergen.
 
 ### Primera Raiz
 Se evaluó la funcion en los intervalos $[-2,0]$, $x(0)=-1$:
@@ -132,5 +139,5 @@ Se evaluó la funcion en los intervalos $[-2,0]$, $x(0)=1$:
 
 **Newton y Steffenson.** Ambos tienden hacia $x=0$, que es el mínimo de la función. La iteración de Newton busca donde la tangente corta el eje, y cuando no existe raíz el método tiende al punto crítico más cercano. Al llegar allí $f'(x)=e^0 -1 = 0$ y GSL devuelve el error "tried to divide by zero".
 
-**Secante.** Es el único que reporta convergencia, lo que ocurre es que la secante entra en un ciclo $(iteraciones 68–70: 1.5207 luego 35.73 y luego 1.5207)$ y la diferencia entre iteraciones consecutivas colapsa a cero por pérdida de precisión, no por convergencia.
----
+**Secante.** Es el único que reporta convergencia, lo que ocurre es que la secante entra en un ciclo (iteraciones 68–70: 1.5207 luego 35.73 y luego 1.5207) y la diferencia entre iteraciones consecutivas colapsa a cero por pérdida de precisión, no por convergencia.
+
