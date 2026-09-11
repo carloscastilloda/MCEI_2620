@@ -19,7 +19,7 @@ A=\begin{bmatrix}1&0&2\\2&-1&5\\0&1&-1\\1&3&-1\end{bmatrix}\in\mathbb{R}^{4\time
 La tercera columna es combinación lineal de las otras dos:
 
 ```math
-c_3 = 2c_1 - c_2 \qquad\Rightarrow\qquad \operatorname{rank}(A)=2 < 3
+c_3 = 2c_1 - c_2 \qquad\Rightarrow\qquad \mathrm{rank}(A)=2 < 3
 ```
 
 Los valores singulares lo confirman:
@@ -31,14 +31,14 @@ Los valores singulares lo confirman:
 | $\sigma_3$ | **5.067452e-16** (cero numérico) |
 
 Tolerancia de rango $\max(m,n)\cdot\sigma_1\cdot\varepsilon = 5.449\times10^{-15}$, luego
-$\operatorname{rank}_{\text{num}}(A)=2$.
+$\mathrm{rank}_{\text{num}}(A)=2$.
 
 **Consecuencia:** $A^TA$ es singular ($\det(A^TA) = -2.31\times10^{-13}$,
-$\operatorname{cond}_2(A^TA)=6.27\times10^{16}$) y la fórmula
+$\mathrm{cond}_2(A^TA)=6.27\times10^{16}$) y la fórmula
 $A^+=(A^TA)^{-1}A^T$ **no aplica**. Si se fuerza igual, el resultado es basura:
 
 ```math
-\lVert (A^TA)^{-1}A^T - A^+ \rVert_F = 3.24\times10^{-1}
+\Vert (A^TA)^{-1}A^T - A^+ \Vert_F = 3.24\times10^{-1}
 ```
 
 es decir, un error del orden de la propia magnitud de la respuesta. La única vía
@@ -61,11 +61,11 @@ A^{+}=\begin{bmatrix}
 
 Coincide con `pinv(A)` de Octave y con
 `A.completeOrthogonalDecomposition().pseudoInverse()` de Eigen
-($\lVert\cdot\rVert_F = 1.49\times10^{-16}$).
+($\Vert\cdot\Vert_F = 1.49\times10^{-16}$).
 
 ### 1.3 Verificación de las cuatro propiedades de Penrose
 
-| # | Propiedad | Residuo $\lVert\cdot\rVert_F$ | Veredicto |
+| # | Propiedad | Residuo $\Vert\cdot\Vert_F$ | Veredicto |
 |---|---|---|---|
 | 1 | $AA^{+}A = A$ | 2.433e-15 | CUMPLE |
 | 2 | $A^{+}AA^{+} = A^{+}$ | 1.428e-16 | CUMPLE |
@@ -77,11 +77,11 @@ Las cuatro se cumplen al nivel del épsilon de máquina ($\varepsilon=2.22\times
 ### 1.4 Interpretación geométrica
 
 $AA^{+}$ y $A^{+}A$ son **proyectores ortogonales** (simétricos e idempotentes)
-sobre $\operatorname{Im}(A)$ y $\operatorname{Im}(A^T)$ respectivamente. Su traza
+sobre $\mathrm{Im}(A)$ y $\mathrm{Im}(A^T)$ respectivamente. Su traza
 es igual al rango:
 
 ```math
-\operatorname{tr}(AA^{+}) = \operatorname{tr}(A^{+}A) = 2 = \operatorname{rank}(A)
+\mathrm{tr}(AA^{+}) = \mathrm{tr}(A^{+}A) = 2 = \mathrm{rank}(A)
 ```
 
 ```math
@@ -109,36 +109,36 @@ b^T = [16,\;16,\;18,\;18,\;24,\;19,\;16,\;20,\;22,\;20]
 | Propiedad | Valor |
 |---|---|
 | $\det(A)$ | 358 816 |
-| $\operatorname{cond}_2(A)$ | 51.7150 |
-| $\operatorname{cond}_\infty(A)$ | 89.7448 |
+| $\mathrm{cond}_2(A)$ | 51.7150 |
+| $\mathrm{cond}_\infty(A)$ | 89.7448 |
 | ¿Simétrica? | Sí |
-| Autovalores extremos | $-3.1471 \ldots 19.3216$ |
+| Autovalores extremos | de $-3.1471$ a $19.3216$ |
 
 $A$ es simétrica pero indefinida (hay autovalores negativos), así que
-Cholesky no es aplicable. Con $\operatorname{cond}_2=51.7$
+Cholesky no es aplicable. Con $\mathrm{cond}_2=51.7$
 la matriz está muy bien condicionada.
 
 ### 2.2 Resultados de los tres métodos
 
 Los tres recuperan $x=\mathbf{1}$ con 8 cifras exactas.
 
-| Método | $\lVert Ax-b\rVert_2$ | error relativo | tiempo medio (20 000 rep.) | costo |
+| Método | $\Vert Ax-b\Vert_2$ | error relativo | tiempo medio (20 000 rep.) | costo |
 |---|---|---|---|---|
 | Gauss con pivoteo parcial (a mano) | 5.024e-15 | 6.101e-16 | 7.07e-07 s | $\tfrac{2}{3}n^3$ |
 | LU (`PartialPivLU`) | 5.024e-15 | 4.399e-16 | 8.04e-07 s | $\tfrac{2}{3}n^3$ |
 | QR (`HouseholderQR`) | 1.137e-14 | 1.013e-15 | 2.59e-06 s | $\tfrac{4}{3}n^3$ |
 | `FullPivLU` (referencia) | 5.617e-15 | 1.530e-15 | — | $\tfrac{2}{3}n^3$ + pivoteo |
 
-Cota teórica: $\text{err}_{\text{rel}}\le \operatorname{cond}_2(A)\cdot\varepsilon = 1.148\times10^{-14}$.
+Cota teórica: $\text{err}_{\text{rel}}\le \mathrm{cond}_2(A)\cdot\varepsilon = 1.148\times10^{-14}$.
 Los cuatro métodos quedan un orden de magnitud por debajo de la cota.
 
 ### 2.3 Calidad de las factorizaciones
 
 | Comprobación | Valor |
 |---|---|
-| $\lVert PA-LU\rVert_F$ | 2.026e-15 |
-| $\lVert A-QR\rVert_F$ | 8.156e-15 |
-| $\lVert Q^TQ-I\rVert_F$ | 1.147e-15 |
+| $\Vert PA-LU\Vert_F$ | 2.026e-15 |
+| $\Vert A-QR\Vert_F$ | 8.156e-15 |
+| $\Vert Q^TQ-I\Vert_F$ | 1.147e-15 |
 | Permutaciones de fila en Gauss | 5 |
 
 `diag(U)` $= [4, 3.5, 4.1429, 4.5517, 3.0682, 7.8543, -1.9345, 2.6719, -5.0992, -2.1399]$ —
@@ -148,9 +148,9 @@ ningún pivote pequeño, lo que confirma el buen condicionamiento.
 
 - **Estabilidad.** Los tres son *backward stable*. QR es el más robusto en
   general porque $Q$ es ortogonal y no amplifica el error
-  ($\operatorname{cond}_2(Q)=1$, verificado: $\lVert Q^TQ-I\rVert_F\approx10^{-15}$),
+  ($\mathrm{cond}_2(Q)=1$, verificado: $\Vert Q^TQ-I\Vert_F\approx10^{-15}$),
   mientras que LU depende del factor de crecimiento de los pivotes. Aquí, con
-  $\operatorname{cond}=52$, la diferencia es irrelevante.
+  $\mathrm{cond}=52$, la diferencia es irrelevante.
 - **Eficiencia.** QR cuesta el doble de operaciones que LU
   ($\frac{4}{3}n^3$ vs $\frac{2}{3}n^3$) y eso se refleja en el tiempo medido:
   2.59 µs vs 0.80 µs, un factor ≈3.2.
@@ -170,7 +170,7 @@ Matriz mal condicionada de referencia: **Hilbert**, $H_{ij}=1/(i+j-1)$.
 
 ### 3.1 Número de condición
 
-| $n$ | $\operatorname{cond}_2(H_n)$ | dígitos perdidos | dígitos útiles (de 16) |
+| $n$ | $\mathrm{cond}_2(H_n)$ | dígitos perdidos | dígitos útiles (de 16) |
 |---|---|---|---|
 | 2 | 1.928e+01 | 1.3 | 14.7 |
 | 4 | 1.551e+04 | 4.2 | 11.8 |
@@ -179,7 +179,7 @@ Matriz mal condicionada de referencia: **Hilbert**, $H_{ij}=1/(i+j-1)$.
 | **10** | **1.603e+13** | **13.2** | **2.8** |
 | 12 | 1.747e+16 | 16.2 | **-0.2** |
 
-Regla práctica: se pierden $\log_{10}(\operatorname{cond})$ cifras significativas.
+Regla práctica: se pierden $\log_{10}(\mathrm{cond})$ cifras significativas.
 Para $n=12$ no queda ninguna cifra correcta en doble precisión.
 
 Valores singulares de $H_{10}$: desde $1.752$ hasta $1.093\times10^{-13}$ — los
@@ -194,7 +194,7 @@ Perturbación determinista $\delta b = 10^{-10}\mathbf{1}$:
 | Perturbación relativa en $b$ | 6.714e-11 |
 | Cambio relativo en $x$ | 5.676e-04 |
 | Factor de amplificación real | **8.45e+06** |
-| Cota teórica $\operatorname{cond}_2(H)$ | 1.603e+13 |
+| Cota teórica $\mathrm{cond}_2(H)$ | 1.603e+13 |
 
 Una perturbación de 11 dígitos por debajo de $b$ produce un cambio en la
 cuarta cifra decimal de $x$: 7 órdenes de magnitud de amplificación. La cota
@@ -207,14 +207,14 @@ $x_0$ frente a $\mathbf{1}$ es **4.12e-05**.
 **Contraste decisivo** — la *misma* perturbación aplicada a la matriz bien
 condicionada del punto 2:
 
-| Matriz | $\operatorname{cond}_2$ | pert. rel. en $b$ | cambio rel. en $x$ | amplificación |
+| Matriz | $\mathrm{cond}_2$ | pert. rel. en $b$ | cambio rel. en $x$ | amplificación |
 |---|---|---|---|---|
 | Hilbert(10) | 1.60e+13 | 6.71e-11 | 5.68e-04 | **8.45e+06** |
 | $A$ del punto 2 | 5.17e+01 | 5.24e-12 | 2.29e-11 | **4.36** |
 
 ### 3.3 Estabilidad de los métodos sobre el problema mal condicionado
 
-| Método | error rel. en $x$ | $\lVert Hx-b\rVert$ | sensibilidad a la perturbación |
+| Método | error rel. en $x$ | $\Vert Hx-b\Vert$ | sensibilidad a la perturbación |
 |---|---|---|---|
 | LU (Gauss) | 2.160e-04 | 2.937e-16 | 3.682e-04 |
 | QR | 3.385e-04 | 2.937e-16 | 2.569e-04 |
@@ -241,31 +241,31 @@ condicionada del punto 2:
 
 Se prueba sobre dos matrices para que la comparación sea informativa.
 
-### Caso 1 — $A$ del punto 2 (bien condicionada, $\operatorname{cond}_2=51.7$)
+### Caso 1 — $A$ del punto 2 (bien condicionada, $\mathrm{cond}_2=51.7$)
 
-| Método | $\lVert AA^{-1}-I\rVert_F$ | $\lVert A^{-1}A-I\rVert_F$ | dif. rel. vs `inv()` | tiempo |
+| Método | $\Vert AA^{-1}-I\Vert_F$ | $\Vert A^{-1}A-I\Vert_F$ | dif. rel. vs `inv()` | tiempo |
 |---|---|---|---|---|
 | Directo (`inverse`) | 2.828e-15 | 6.658e-15 | — | 7.15e-05 s |
 | QR | 4.218e-15 | 4.591e-15 | 8.00e-16 | 1.39e-05 s |
 | SVD | 8.291e-15 | 8.432e-15 | 1.66e-15 | 3.80e-05 s |
 
 Error al resolver $Ax=b$ con cada inversa: **2.2e-15 – 4.2e-15** en los tres.
-Cota teórica $\operatorname{cond}\cdot\varepsilon=1.15\times10^{-14}$.
+Cota teórica $\mathrm{cond}\cdot\varepsilon=1.15\times10^{-14}$.
 Los tres métodos son equivalentes; decide el costo.
 
-### Caso 2 — Hilbert(10) (mal condicionada, $\operatorname{cond}_2=1.60\times10^{13}$)
+### Caso 2 — Hilbert(10) (mal condicionada, $\mathrm{cond}_2=1.60\times10^{13}$)
 
-| Método | $\lVert AA^{-1}-I\rVert_F$ | $\lVert A^{-1}A-I\rVert_F$ | error al resolver $Ax=b$ |
+| Método | $\Vert AA^{-1}-I\Vert_F$ | $\Vert A^{-1}A-I\Vert_F$ | error al resolver $Ax=b$ |
 |---|---|---|---|
 | Directo (`inverse`) | 1.684e-04 | 6.754e-03 | 6.589e-03 |
 | QR | 3.397e-04 | 3.644e-03 | 3.606e-03 |
 | SVD | 7.546e-03 | 7.809e-03 | 4.839e-03 |
 | **SVD truncada (rango 8/10)** | 1.414e+00 (!) | 1.414e+00 (!) | **5.455e-06** |
 
-Cota teórica: $\operatorname{cond}\cdot\varepsilon = 3.56\times10^{-3}$.
+Cota teórica: $\mathrm{cond}\cdot\varepsilon = 3.56\times10^{-3}$.
 
 Para la pseudoinversa truncada, $AA^{+}$ es un proyector de rango $k$, así que
-$\lVert AA^{+}-I\rVert_F=\sqrt{n-k}=\sqrt2=1.414$ por construcción,
+$\Vert AA^{+}-I\Vert_F=\sqrt{n-k}=\sqrt2=1.414$ por construcción,
 no por imprecisión. La métrica que importa es el error en la
 solución: ahí la SVD truncada es 1000 veces mejor que cualquier otra.
 
@@ -275,7 +275,7 @@ solución: ahí la SVD truncada es 1000 veces mejor que cualquier otra.
    directa por costo ($2n^3$ frente a $\sim\frac{4}{3}n^3+n^3$ de QR y
    12–22 $n^3$ de la SVD).
 2. **Mal condicionada:** los tres errores quedan
-   del orden de $\operatorname{cond}(A)\cdot\varepsilon$, que es exactamente la
+   del orden de $\mathrm{cond}(A)\cdot\varepsilon$, que es exactamente la
    cota teórica. Esa pérdida es del problema, no del algoritmo.
 3. La ventaja real de la SVD no es un error más pequeño en la inversa
    completa, sino que es el único método que diagnostica (muestra los
@@ -322,7 +322,7 @@ solución: ahí la SVD truncada es 1000 veces mejor que cualquier otra.
 >
 > **Incluye** los supuestos del teorema de Gauss-Markov y cuáles de ellos viola
 > típicamente una señal biomédica, la relación
-> $\operatorname{cond}(X^TX)=\operatorname{cond}(X)^2$ y sus implicaciones
+> $\mathrm{cond}(X^TX)=\mathrm{cond}(X)^2$ y sus implicaciones
 > prácticas —ilustrada con el ajuste polinómico para remoción de deriva de línea
 > de base en ECG—, las métricas de bondad de ajuste (residual, MSE, RMSE, $R^2$)
 > junto con la validación cruzada, y los criterios para decidir qué método usar
@@ -334,13 +334,13 @@ solución: ahí la SVD truncada es 1000 veces mejor que cualquier otra.
 
 Con $n$ ventanas y $p$ parámetros ($n>p$), el sistema $X\beta=y$ es
 **sobredeterminado**: en general no tiene solución exacta porque
-$y\notin\operatorname{Im}(X)$ —el torque medido nunca es una combinación lineal
+$y\notin\mathrm{Im}(X)$ —el torque medido nunca es una combinación lineal
 exacta de las características de sEMG, y no debería serlo: el sEMG es una señal
 estocástica y el dinamómetro tiene su propio ruido. Se busca entonces el
 $\hat\beta$ que minimice la norma euclídea del residual:
 
 ```math
-\hat\beta=\arg\min_{\beta\in\mathbb{R}^p}\;\lVert y-X\beta\rVert_2^2
+\hat\beta=\arg\min_{\beta\in\mathbb{R}^p}\;\Vert y-X\beta\Vert_2^2
 ```
 
 Se usa la norma 2 (y no la 1 o la $\infty$) por tres razones: es diferenciable,
@@ -351,7 +351,7 @@ correr el estimador en línea en una prótesis mioeléctrica.
 
 #### 5.2.2 Deducción de las ecuaciones normales
 
-Sea $S(\beta)=\lVert y-X\beta\rVert_2^2=(y-X\beta)^T(y-X\beta)=y^Ty-2\beta^TX^Ty+\beta^TX^TX\beta$.
+Sea $S(\beta)=\Vert y-X\beta\Vert_2^2=(y-X\beta)^T(y-X\beta)=y^Ty-2\beta^TX^Ty+\beta^TX^TX\beta$.
 
 ```math
 \frac{\partial S}{\partial\beta}=-2X^Ty+2X^TX\beta=0
@@ -366,13 +366,13 @@ por tanto un **mínimo global único**.
 
 La condición de optimalidad equivale a $X^T(y-X\hat\beta)=X^Tr=0$: el residual
 es **ortogonal al espacio columna de $X$**. Es decir, $\hat y=X\hat\beta$ es la
-**proyección ortogonal** de $y$ sobre $\operatorname{Im}(X)$:
+**proyección ortogonal** de $y$ sobre $\mathrm{Im}(X)$:
 
 ```math
 \hat y = X(X^TX)^{-1}X^Ty = Hy,\qquad H=H^T=H^2 \;(\text{matriz sombrero})
 ```
 
-Esta es la comprobación numérica más útil del ajuste: si $\lVert X^Tr\rVert_\infty$ no es
+Esta es la comprobación numérica más útil del ajuste: si $\Vert X^Tr\Vert_\infty$ no es
 prácticamente cero, el $\hat\beta$ calculado está mal. La lectura de ingeniería
 es directa: el modelo se queda con la parte del torque que las características
 de sEMG **pueden** explicar, y descarta el resto como residual.
@@ -382,21 +382,21 @@ de sEMG **pueden** explicar, y descarta el resto como residual.
 **(a) Ecuaciones normales.** Se forma $X^TX$ ($p\times p$) y se resuelve con
 Cholesky (posible porque $X^TX$ es simétrica definida positiva).
 Costo $\approx np^2+\frac{1}{3}p^3$ — el más barato.
-**Problema fatal:** $\operatorname{cond}_2(X^TX)=\operatorname{cond}_2(X)^2$.
-Se **duplica** el número de dígitos perdidos. Con $\operatorname{cond}(X)\ge10^8$
+**Problema fatal:** $\mathrm{cond}_2(X^TX)=\mathrm{cond}_2(X)^2$.
+Se **duplica** el número de dígitos perdidos. Con $\mathrm{cond}(X)\ge10^8$
 el resultado no tiene ninguna cifra correcta.
 
 **(b) Factorización QR.** $X=QR$ con $Q^TQ=I_p$ y $R$ triangular superior.
 Como la norma 2 es invariante bajo transformaciones ortogonales,
 
 ```math
-\lVert y-X\beta\rVert_2^2=\lVert Q^Ty-R\beta\rVert_2^2+\lVert (I-QQ^T)y\rVert_2^2
+\Vert y-X\beta\Vert_2^2=\Vert Q^Ty-R\beta\Vert_2^2+\Vert (I-QQ^T)y\Vert_2^2
 ```
 
 y el mínimo se alcanza resolviendo el sistema triangular $R\hat\beta=Q^Ty$.
 Costo $\approx 2np^2-\frac{2}{3}p^3$ (≈2× las normales).
 **Ventaja:** nunca se forma $X^TX$, así que el condicionamiento efectivo es
-$\operatorname{cond}(X)$ y no su cuadrado. Es el método **por defecto** (lo que
+$\mathrm{cond}(X)$ y no su cuadrado. Es el método **por defecto** (lo que
 hace `A\b` en Octave/MATLAB).
 
 **(c) SVD / pseudoinversa.** $X=U\Sigma V^T$, $\hat\beta=V\Sigma^+U^Ty=X^+y$.
@@ -409,7 +409,7 @@ redundantes, que es casi siempre.
 | Criterio | Ec. normales | QR | SVD |
 |---|---|---|---|
 | Costo (flops) | $np^2+\tfrac13p^3$ | $2np^2-\tfrac23p^3$ | $4np^2+8p^3$ |
-| Condicionamiento efectivo | $\operatorname{cond}(X)^2$ | $\operatorname{cond}(X)$ | $\operatorname{cond}(X)$ |
+| Condicionamiento efectivo | $\mathrm{cond}(X)^2$ | $\mathrm{cond}(X)$ | $\mathrm{cond}(X)$ |
 | ¿Soporta rango deficiente? | No | Con pivoteo de columnas | **Sí** |
 | ¿Permite regularizar? | Ridge | Limitado | **Sí (TSVD)** |
 | ¿Diagnostica el problema? | No | Parcialmente | **Sí** |
@@ -417,14 +417,14 @@ redundantes, que es casi siempre.
 
 #### 5.2.5 Supuestos de Gauss-Markov y cuáles viola una señal biomédica
 
-Si (i) $\mathbb{E}[\varepsilon]=0$, (ii) $\operatorname{Var}(\varepsilon)=\sigma^2I$
+Si (i) $\mathbb{E}[\varepsilon]=0$, (ii) $\mathrm{Var}(\varepsilon)=\sigma^2I$
 (homocedasticidad y no correlación), y (iii) $X$ es de rango completo y no
 aleatoria, entonces $\hat\beta$ es el **BLUE** (*Best Linear Unbiased
 Estimator*): insesgado y de mínima varianza entre los estimadores lineales
 insesgados, con
 
 ```math
-\operatorname{Var}(\hat\beta)=\sigma^2(X^TX)^{-1},\qquad
+\mathrm{Var}(\hat\beta)=\sigma^2(X^TX)^{-1},\qquad
 \hat\sigma^2=\frac{\mathrm{SSE}}{n-p}
 ```
 
@@ -436,7 +436,7 @@ nombrarlas antes de reportar un $p$-valor:
 
 1. **Heterocedasticidad.** La varianza del sEMG crece con el nivel de
    activación: a mayor torque, mayor amplitud *y* mayor dispersión. El supuesto
-   $\operatorname{Var}(\varepsilon)=\sigma^2I$ falla, y la corrección es mínimos
+   $\mathrm{Var}(\varepsilon)=\sigma^2I$ falla, y la corrección es mínimos
    cuadrados ponderados (WLS) o una transformación estabilizadora de varianza.
 2. **Autocorrelación.** Si las ventanas de 250 ms se calculan con solapamiento
    (lo habitual, 50–75 %), las filas de $X$ **no son independientes** y los
@@ -456,13 +456,13 @@ nombrarlas antes de reportar un $p$-valor:
 distribución aproximadamente gaussiana, MAV y RMS están ligados analíticamente:
 
 ```math
-\mathbb{E}\lvert x\rvert = \sigma\sqrt{2/\pi},\qquad \mathrm{RMS}=\sigma
+\mathbb{E}\vert x\vert = \sigma\sqrt{2/\pi},\qquad \mathrm{RMS}=\sigma
 \quad\Longrightarrow\quad \frac{\mathrm{MAV}}{\mathrm{RMS}}=\sqrt{\tfrac{2}{\pi}}\approx0.7979
 ```
 
 Es decir, MAV y RMS del mismo canal son **casi proporcionales**: su correlación
 empírica en sEMG real suele estar por encima de 0.98. Incluir ambas en $X$ crea
-colinealidad severa, $\sigma_{\min}(X)\to0$ y $\operatorname{cond}(X)$ explota.
+colinealidad severa, $\sigma_{\min}(X)\to0$ y $\mathrm{cond}(X)$ explota.
 Los $\hat\beta$ individuales se vuelven inestables (grandes, de signos opuestos,
 cambiando de sujeto a sujeto) aunque la **predicción** $\hat y$ siga siendo
 buena — el síntoma clásico de la colinealidad.
@@ -472,21 +472,21 @@ polinomio de grado $g$ en el tiempo para sustraer la deriva es un problema de
 mínimos cuadrados con matriz de **Vandermonde**, que es el ejemplo canónico de
 mal condicionamiento. Para un registro de 10 s a 1 kHz ($n=10\,000$):
 
-| Grado $g$ | $\operatorname{cond}(X)$, base cruda $t^k$ | $\operatorname{cond}(X^TX)$ | $\operatorname{cond}(X)$ con $t$ normalizado a $[-1,1]$ |
+| Grado $g$ | $\mathrm{cond}(X)$, base cruda $t^k$ | $\mathrm{cond}(X^TX)$ | $\mathrm{cond}(X)$ con $t$ normalizado a $[-1,1]$ |
 |---|---|---|---|
 | 3 | 1.96e+03 | 3.86e+06 | **8.22** |
 | 5 | 4.60e+05 | 2.12e+11 | **43.2** |
 | 8 | 2.10e+09 | **4.41e+18** | **553** |
 
 La lectura es contundente. Con grado 8 y base cruda, las ecuaciones normales
-trabajan con $\operatorname{cond}(X^TX)=4.4\times10^{18} > 1/\varepsilon$: el
+trabajan con $\mathrm{cond}(X^TX)=4.4\times10^{18} > 1/\varepsilon$: el
 sistema es **numéricamente singular** y no queda ninguna cifra correcta, aunque
 el problema matemático esté perfectamente bien planteado. La misma QR sobre la
 misma base ya conserva 7 dígitos. Y el simple cambio de variable
 $t\mapsto 2(t-t_{\min})/(t_{\max}-t_{\min})-1$ baja el condicionamiento de
 $2\times10^9$ a **553**: siete órdenes de magnitud **gratis**, sin cambiar el
 modelo ni un solo dato. Usar una base ortogonal (Legendre, Chebyshev) lo lleva
-a $\operatorname{cond}=1$.
+a $\mathrm{cond}=1$.
 
 **Ejemplo mínimo de por qué formar $X^TX$ destruye información** (Läuchli): con
 $\epsilon=10^{-9}$, la matriz
@@ -505,7 +505,7 @@ información del rango se pierde de forma irreversible.
 #### 5.2.7 Métricas de bondad de ajuste y validación
 
 ```math
-r=y-X\hat\beta,\quad \mathrm{SSE}=\lVert r\rVert_2^2,\quad \mathrm{MSE}=\frac{\mathrm{SSE}}{n},\quad
+r=y-X\hat\beta,\quad \mathrm{SSE}=\Vert r\Vert_2^2,\quad \mathrm{MSE}=\frac{\mathrm{SSE}}{n},\quad
 \mathrm{RMSE}=\sqrt{\mathrm{MSE}}
 ```
 
@@ -532,12 +532,12 @@ de sEMG.
 
 #### 5.2.8 Criterio de decisión práctico
 
-1. Calcular $\operatorname{cond}_2(X)$ **antes** de elegir el método. Es una
+1. Calcular $\mathrm{cond}_2(X)$ **antes** de elegir el método. Es una
    línea de código y evita horas de depuración.
-2. $\operatorname{cond}(X)<10^4$ → cualquier método sirve; QR por seguridad.
-3. $10^4<\operatorname{cond}(X)<10^8$ → QR obligatorio; las ecuaciones normales
+2. $\mathrm{cond}(X)<10^4$ → cualquier método sirve; QR por seguridad.
+3. $10^4<\mathrm{cond}(X)<10^8$ → QR obligatorio; las ecuaciones normales
    ya pierden la mitad de las cifras.
-4. $\operatorname{cond}(X)>10^8$ → SVD, y **antes de eso**, revisar el
+4. $\mathrm{cond}(X)>10^8$ → SVD, y **antes de eso**, revisar el
    planteamiento: centrar y escalar las columnas, normalizar el eje temporal,
    usar una base ortogonal, o eliminar características redundantes (no incluir
    RMS y MAV del mismo canal). Casi siempre el mal condicionamiento es un
@@ -545,7 +545,7 @@ de sEMG.
 5. Si la colinealidad es intrínseca al fenómeno y no se puede eliminar,
    regularizar: TSVD, *ridge* ($\hat\beta_\lambda=(X^TX+\lambda I)^{-1}X^Ty$) o
    reducción previa por PCA sobre las características.
-6. Siempre: verificar $\lVert X^Tr\rVert_\infty\approx0$ al final y reportar el error en
+6. Siempre: verificar $\Vert X^Tr\Vert_\infty\approx0$ al final y reportar el error en
    validación cruzada, no el del ajuste.
 
 ---
@@ -580,9 +580,9 @@ Diferencias respecto a QR: ecuaciones normales **3.70e-12**, con `inv()`
 explícita **2.47e-12**, SVD **1.43e-14**, ColPivQR **9.97e-14**.
 
 Los cuatro métodos coinciden en las 8 cifras mostradas porque
-$\operatorname{cond}(X)=347$ es moderado. **Pero la jerarquía ya se ve**: las
+$\mathrm{cond}(X)=347$ es moderado. **Pero la jerarquía ya se ve**: las
 ecuaciones normales tienen un error 2–3 órdenes de magnitud mayor que QR/SVD.
-Con $\operatorname{cond}(X)\sim10^7$ esas mismas ecuaciones normales no darían
+Con $\mathrm{cond}(X)\sim10^7$ esas mismas ecuaciones normales no darían
 ninguna cifra correcta.
 
 ## Entregable 2 — Influencia relativa de cada variable
@@ -616,17 +616,17 @@ factorial bien hecho).
 
 | Métrica | Valor |
 |---|---|
-| $\lVert r\rVert_2$ | 155.0408 W |
+| $\Vert r\Vert_2$ | 155.0408 W |
 | SSE | 24 037.6517 W² |
 | **MSE** | **240.3765 W²** |
 | **RMSE** | **15.5041 W** |
 | MAE | 12.4479 W |
-| $\max\lvert r\rvert$ | 47.9571 W |
+| $\max\vert r\vert$ | 47.9571 W |
 | $R^2$ | **0.94830942** |
 | $R^2$ ajustado | 0.94669409 |
 | RMSE / media($P$) | 11.55 % |
 | media($r$) | -2.98e-14 (OK) |
-| $\lVert X^Tr\rVert_\infty$ | 1.52e-10 (OK) |
+| $\Vert X^Tr\Vert_\infty$ | 1.52e-10 (OK) |
 
 Las dos últimas filas son las **verificaciones numéricas** del ajuste: el
 residual tiene media nula y es ortogonal a las columnas de $X$, tal como exige
@@ -647,7 +647,7 @@ media de 134 W (11.5 %) es alto para un convertidor de potencia: hay
 | SSE | 24037.651696 | 24037.651696 | < 1e-6 |
 | RMSE | 15.504081 | 15.504081 | < 1e-6 |
 | $R^2$ | 0.94830942 | 0.94830942 | < 1e-8 |
-| $\operatorname{cond}_2(X)$ | 347.216931 | 347.216931 | < 1e-6 |
+| $\mathrm{cond}_2(X)$ | 347.216931 | 347.216931 | < 1e-6 |
 | $\sigma_i(X)$ | 572.522002, 80.371311, 32.809382, 1.648888 | idem | < 1e-6 |
 
 **Correspondencia de funciones:**
@@ -683,19 +683,19 @@ media de 134 W (11.5 %) es alto para un convertidor de potencia: hay
 | Cantidad | Valor |
 |---|---|
 | $\sigma(X)$ | 572.522002, 80.371311, 32.809382, **1.648888** |
-| $\operatorname{cond}_2(X)$ | **347.216931** |
-| $\operatorname{cond}_2(X^TX)$ | **120 559.597432** |
-| $\operatorname{cond}_2(X)^2$ | 120 559.597432 (OK) |
+| $\mathrm{cond}_2(X)$ | **347.216931** |
+| $\mathrm{cond}_2(X^TX)$ | **120 559.597432** |
+| $\mathrm{cond}_2(X)^2$ | 120 559.597432 (OK) |
 | Dígitos perdidos con QR | 2.54 |
 | Dígitos perdidos con ec. normales | 5.08 |
-| $\operatorname{cond}_2(X)$ centrando columnas | **14.606127** |
+| $\mathrm{cond}_2(X)$ centrando columnas | **14.606127** |
 
-Se verifica numéricamente la identidad $\operatorname{cond}(X^TX)=\operatorname{cond}(X)^2$.
+Se verifica numéricamente la identidad $\mathrm{cond}(X^TX)=\mathrm{cond}(X)^2$.
 **Formar las ecuaciones normales duplica los dígitos perdidos**: 2.5 → 5.1.
 
 El origen del mal condicionamiento es la **escala dispar** de las columnas
 (columna de unos vs. $T\sim50$), **no** colinealidad: centrar las columnas baja
-$\operatorname{cond}$ de 347 a **14.6**, un factor 24, sin cambiar el modelo.
+$\mathrm{cond}$ de 347 a **14.6**, un factor 24, sin cambiar el modelo.
 Esta es la medida preventiva más barata que existe en regresión.
 
 ## Diagnóstico adicional: el modelo físico
@@ -717,7 +717,7 @@ del punto de operación medio, y es exactamente por eso que su RMSE residual
 
 ## Efecto del número de muestras
 
-| $n$ | $\beta_0$ | $\beta_1(V)$ | $\beta_2(I)$ | $\beta_3(T)$ | RMSE | $\operatorname{cond}(X)$ |
+| $n$ | $\beta_0$ | $\beta_1(V)$ | $\beta_2(I)$ | $\beta_3(T)$ | RMSE | $\mathrm{cond}(X)$ |
 |---|---|---|---|---|---|---|
 | 10 | -137.5630 | 6.7401 | 18.7333 | -0.0830 | 13.8115 | 236.59 |
 | 20 | -136.0298 | 6.4210 | 19.0120 | -0.0454 | 15.1012 | 287.85 |
@@ -800,7 +800,7 @@ proceso**, que no depende de $n$. Con pocas muestras el RMSE aparece
 exactamente cero y el modelo no valdría nada). Lo que mejora con $n$ no es el
 ajuste a los datos vistos, sino la capacidad predictiva sobre datos nuevos.
 
-**(d) El condicionamiento se estabiliza.** $\operatorname{cond}(X)$: 236.6 →
+**(d) El condicionamiento se estabiliza.** $\mathrm{cond}(X)$: 236.6 →
 287.8 → 336.0 → 347.2, tendiendo a un valor asintótico determinado por el
 diseño experimental (los rangos y las escalas de las variables), no por $n$.
 Más muestras no arreglan un problema mal condicionado; solo un mejor diseño
@@ -813,7 +813,7 @@ millones de filas (y admite formulación incremental / por bloques).
 ## 4. ¿Por qué QR es preferible a las ecuaciones normales?
 
 ```math
-\operatorname{cond}_2(X^TX)=\operatorname{cond}_2(X)^2
+\mathrm{cond}_2(X^TX)=\mathrm{cond}_2(X)^2
 ```
 
 En nuestros datos: $347.216931^2 = 120\,559.597432$, exactamente el valor
@@ -822,8 +822,8 @@ calculado. **Formar $X^TX$ duplica los dígitos perdidos** (2.54 a 5.08).
 Las razones, ordenadas por importancia:
 
 1. **Amplificación del condicionamiento.** El error relativo de las ecuaciones
-   normales escala con $\operatorname{cond}(X)^2\varepsilon$; el de QR, con
-   $\operatorname{cond}(X)\varepsilon$. Si $\operatorname{cond}(X)=10^8$ —
+   normales escala con $\mathrm{cond}(X)^2\varepsilon$; el de QR, con
+   $\mathrm{cond}(X)\varepsilon$. Si $\mathrm{cond}(X)=10^8$ —
    perfectamente posible en un ajuste polinómico o con variables de escalas muy
    distintas — las ecuaciones normales dan $10^{16}\cdot10^{-16}=1$: **cero
    cifras correctas**, mientras QR conserva 8.
@@ -834,22 +834,22 @@ Las razones, ordenadas por importancia:
    $1+\epsilon^2=1$ en doble precisión, se almacena como la matriz de todos
    unos, que es singular. **La información del rango se destruye de forma
    irreversible.**
-3. **Invariancia ortogonal.** $\lVert Q^Tv\rVert_2=\lVert v\rVert_2$: las
+3. **Invariancia ortogonal.** $\Vert Q^Tv\Vert_2=\Vert v\Vert_2$: las
    transformaciones de Householder no amplifican el error
-   ($\operatorname{cond}_2(Q)=1$). En este taller se verificó
-   $\lVert Q^TQ-I\rVert_F\approx10^{-15}$.
+   ($\mathrm{cond}_2(Q)=1$). En este taller se verificó
+   $\Vert Q^TQ-I\Vert_F\approx10^{-15}$.
 4. **QR no requiere rango completo** si se usa pivoteo de columnas
    (`ColPivHouseholderQr`), que además detecta la deficiencia de rango.
    Cholesky sobre $X^TX$ simplemente falla.
 5. **Estabilidad demostrada.** QR con Householder es *backward stable*: el
    $\hat\beta$ calculado es la solución exacta de un problema con $X+\delta X$,
-   donde $\lVert\delta X\rVert/\lVert X\rVert=O(\varepsilon)$ — la mejor
+   donde $\Vert\delta X\Vert/\Vert X\Vert=O(\varepsilon)$ — la mejor
    garantía posible.
 
 **¿Cuándo sí usar ecuaciones normales?** Cuando $p$ es muy pequeño, $n\gg p$,
 $X$ está bien condicionada y el costo importa: son ~2× más baratas
 ($np^2$ vs. $2np^2$) y $X^TX$ se puede acumular por bloques o en streaming. En
-este taller, con $\operatorname{cond}(X)=347$, dan el mismo resultado —
+este taller, con $\mathrm{cond}(X)=347$, dan el mismo resultado —
 pero con un error 2–3 órdenes de magnitud mayor, que es el aviso de lo que pasa
 cuando el condicionamiento crece.
 
